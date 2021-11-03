@@ -1,0 +1,124 @@
+.sidebar{
+    width: 40%;
+    min-width: 200px;
+    background-color:darkslategray;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    z-index: 1;
+}
+
+.header__icon{
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    display: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.sidebar__icon{
+
+    left: 90px;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.sidebar__header{
+    width: 100%;
+    height: 60px;
+}
+.sidebar__header--right{
+    width: fit-content;
+    float: right;
+}
+
+.sidebar__title{
+    float: left;
+    font-size: 30px;
+    height: fit-content;
+    margin: auto 0;
+}
+
+.sidebar__title--text{
+    width: fit-content;
+    margin: 0;
+
+}
+
+.sidebar__menu{
+    text-decoration: none;
+    padding: 0 0;
+    list-style: none;
+    line-height: 70px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
+
+.sidebar__menu--link{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sidebar__menu--item{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 31px;
+    width: fit-content;
+    margin: auto auto;
+}
+
+.sidebar--hidden{
+    display: none;
+}
+
+@media only screen and (max-width: 800px){
+
+    .header__icon{
+        display: block;
+        color: white;
+    }
+
+    .sidebar--active{
+        display: block;
+    }
+
+    @keyframes sidebarHide {
+        0% {transform: translateX(0px);}
+        100% {transform: translateX(-400px);}
+      }
+
+    .sidebar--hidden{
+        animation-duration: 1s;
+        animation-name: sidebarHide;
+        animation-iteration-count: 1;
+        animation-play-state: running;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes sidebarShow {
+        0% {transform: translateX(-300px);}
+        100% {transform: translateX(0px);}
+      }
+
+    .sidebar--show{
+        animation-duration: 1s;
+        animation-name: sidebarShow;
+        animation-iteration-count: 1;
+        animation-play-state: running;
+        animation-fill-mode: forwards;
+    }
+
+
+
+}

@@ -1,0 +1,21 @@
+.menu_food{
+    width:80%;
+    display: inline-grid;
+    grid-gap: 20px;
+    grid-template-columns: auto auto;
+}
+
+.menu_flex{
+    display: flex;
+    justify-content: center;
+
+
+}
+
+@media only screen and (max-width: 800px){
+    .menu_food{
+        width:90%;
+        grid-gap: 20px;
+        grid-template-columns: auto;
+    }
+}

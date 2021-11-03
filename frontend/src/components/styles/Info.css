@@ -1,0 +1,54 @@
+.info{
+    margin: 0px auto;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+.info__div--left{
+    width: fit-content;
+}
+
+.info__div--right{
+    width: fit-content;
+    float: left;
+}
+
+.info__div--contact{
+    min-width: 270px;
+}
+
+.info__div__divider{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info__div--space{
+    margin-top: 5px;
+}
+
+.info__div{
+    margin: 0px 10px;
+}
+
+.info__div--hours{
+    min-width: 190px;
+    max-width: 210px;
+}
+
+.info__div--payment{
+margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 800px){
+    .info{
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+}
+
