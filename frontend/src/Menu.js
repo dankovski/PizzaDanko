@@ -3,14 +3,14 @@ import "./styles/Menu.css"
 
 import Food from "./components/Food"
 
-
-function Menu() {
+function Menu(props) {
 
     const [foodData, setData] = useState(null)
     const [isError, setError] = useState(false)
     const [isLoaded, setLoaded] = useState(false)
 
-     useEffect(
+    //reading food menu
+    useEffect(
         ()=>{
         fetch("http://localhost:8000/get_food_data")
         .then(res => res.json() )
@@ -25,6 +25,7 @@ function Menu() {
         )
     },[])
 
+
     if(isError){
         return <h1>Can't load food</h1>
     }
@@ -32,17 +33,16 @@ function Menu() {
         return <h1>Loading...</h1>
     }
     else{
-
       return (
       <>
-          <h1>menu</h1>
-          <div className="menu_flex">
+        <h1>menu</h1>
+        <div className="menu_flex">
             <div className="menu_food">
                 {foodData.map( (food) => (
-                    <Food key={food.id} number={food.id} name={food.name} description={food.description} photo_url={food.photo}/>
+                    <Food key={food.id} onFoodOrder={(product)=>props.onFoodOrder(product)} product={food}/>
                 ))}
             </div>
-            </div>
+        </div>
 
           </>
       );

@@ -1,0 +1,26 @@
+.cart__link{
+    height: fit-content;
+}
+
+.cart__counter{
+    position: relative;
+    display: inline-block;
+}
+
+.cart__list{
+    z-index: 1;
+    position: absolute;
+    height: fit-content;
+    left: -130px;
+    width: 200%;
+    background-color:darkslategrey;
+    /* display: none; */
+}
+
+.cart__link:hover + .cart__list{
+    display: block;
+}
+
+.cart__list:hover{
+    display: block;
+}

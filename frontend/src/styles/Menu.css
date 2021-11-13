@@ -8,8 +8,6 @@
 .menu_flex{
     display: flex;
     justify-content: center;
-
-
 }
 
 @media only screen and (max-width: 800px){

@@ -7,10 +7,8 @@
 .background__img--zoom{
     animation-duration: 20s;
     animation-name: zoom;
-    /* animation-iteration-count: 1; */
     animation-play-state: running;
     animation-iteration-count: infinite;
-    /* animation-fill-mode: forwards; */
 }
 
 .home__background{
@@ -93,12 +91,3 @@
     transform: scale(120%);
     background-color: yellowgreen;
 }
-
-
-
-@media only screen and (min-width: 1200px){
-
-
-
-}
-

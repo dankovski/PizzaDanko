@@ -1,10 +1,10 @@
 import React from 'react';
 import './styles/Header.css'
 import { Link } from 'react-router-dom';
-import Button from './images/button_logo.png'
 import Sidebar from './Sidebar';
+import Cart from './Cart';
 
-function Header() {
+function Header(props) {
 
 return (
 
@@ -12,17 +12,12 @@ return (
           <Sidebar/>
           <header className="header__navbar">
             <div className="header__container">
-              <ul className="menu">
-                <li className="menu__item"><Link className="menu__item--link" to='/'>ABOUT</Link></li>
-                <li className="menu__item"><Link className="menu__item--link" to='/menu'>MENU</Link></li>
-                <li className="menu__item menu__item--logo">
-                  <Link className="menu__item--link" to='/'>
-                  <img className="menu__item--logo" src={Button} alt="logo"></img>
-                  </Link>
-                </li>
-                <li className="menu__item"><Link className="menu__item--link" to='/'>DELIVERY</Link></li>
-                <li className="menu__item"><Link className="menu__item--link" to='/contact'>CONTACT</Link></li>
-              </ul>
+                <Link className="menu__item--link" to='/'>HOME</Link>
+                <Link className="menu__item--link" to='/menu'>MENU</Link>
+                <Link className="menu__item--link" to='/'>CONTACT</Link>
+                <Link className="menu__item--link" to='/contact'>LOGIN</Link>
+                <Cart cartItems={props.cartItems} onFoodOrder={props.onFoodOrder} onCartItemRemove={props.onCartItemRemove} onCartItemDelete={props.onCartItemDelete}/>
+
             </div>
 
           </header>
