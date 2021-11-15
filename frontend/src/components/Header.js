@@ -14,8 +14,8 @@ return (
             <div className="header__container">
                 <Link className="menu__item--link" to='/'>HOME</Link>
                 <Link className="menu__item--link" to='/menu'>MENU</Link>
-                <Link className="menu__item--link" to='/'>CONTACT</Link>
-                <Link className="menu__item--link" to='/contact'>LOGIN</Link>
+                <Link className="menu__item--link" to='/contact'>CONTACT</Link>
+                <Link className="menu__item--link" to='/login'>LOGIN</Link>
                 <Cart cartItems={props.cartItems} onFoodOrder={props.onFoodOrder} onCartItemRemove={props.onCartItemRemove} onCartItemDelete={props.onCartItemDelete}/>
 
             </div>

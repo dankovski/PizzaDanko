@@ -1,5 +1,5 @@
 .info{
-    margin: 0px auto;
+    margin: 10px auto;
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -38,10 +38,6 @@
 .info__div--hours{
     min-width: 190px;
     max-width: 210px;
-}
-
-.info__div--payment{
-margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 800px){

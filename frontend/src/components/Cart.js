@@ -24,13 +24,18 @@ return (
   <div className="cart__list">
     <h2>Cart list</h2>
 
-    {props.cartItems.map( (item) => (<CartItem onFoodOrder={() => props.onFoodOrder(item)} 
-    key={item.id} product={item} 
-    onCartItemRemove={() => props.onCartItemRemove(item)} 
+    {props.cartItems.map( (item) => (<CartItem onFoodOrder={() => props.onFoodOrder(item)}
+    key={item.id} product={item}
+    onCartItemRemove={() => props.onCartItemRemove(item)}
     onCartItemDelete={ ()=> props.onCartItemDelete(item)}/>))}
 
     <h3>cart total:  {cartCost} PLN</h3>
-    <button>view cart</button>
+
+    <Link to='/cart'>
+      <button>View cart</button>
+    </Link>
+
+
   </div>
 </div>
   </>

@@ -8,13 +8,14 @@
 }
 
 .cart__list{
-    z-index: 1;
+    z-index: 3;
     position: absolute;
     height: fit-content;
-    left: -130px;
+    top: 95%;
+    left: -110%;
     width: 200%;
     background-color:darkslategrey;
-    /* display: none; */
+    display: none;
 }
 
 .cart__link:hover + .cart__list{
