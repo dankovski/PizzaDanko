@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Menu from './Menu';
 import Contact from './Contact';
 import Home from './Home';
+import Thanks from './Thanks';
+import CartPage from './CartPage'
+import LoginPage from './LoginPage'
 
 import './styles/index.css';
 
@@ -13,7 +16,7 @@ import Info from './components/Info';
 
 
 function App() {
-    
+
     const [cartData, setCartData] = useState([])
 
     const onFoodOrder = (product) => {
@@ -65,6 +68,9 @@ function App() {
         <Route exact path='/'><Home/></Route>
         <Route exact path='/menu'><Menu onFoodOrder={onFoodOrder}/></Route>
         <Route exact path='/contact'><Contact/></Route>
+        <Route exact path='/thanks'><Thanks/></Route>
+        <Route exact path='/login'><LoginPage/></Route>
+        <Route exact path='/cart'><CartPage cartItems={cartData} onFoodOrder={onFoodOrder} onCartItemRemove={onCartItemRemove} onCartItemDelete={onCartItemDelete}/></Route>
         <Info/>
       </Router>
     </>)

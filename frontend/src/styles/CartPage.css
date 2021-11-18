@@ -1,0 +1,27 @@
+.cartpage__content{
+    width: 30%;
+    margin: 0px auto;
+    background-color:rgb(59, 43, 43);
+    display: flex;
+    flex-direction: column;
+}
+.cartpage__content--empty{
+    text-align: center;
+}
+
+
+.cartpage__button{
+
+    margin: 10px auto;
+    cursor: pointer;
+    height: 30px;
+    width: 50%;
+    border: none;
+    border-radius: 15px;
+    background-color: brown;
+    color: aliceblue;
+}
+
+.cartpage__button:hover{
+    background-color:cadetblue;
+}

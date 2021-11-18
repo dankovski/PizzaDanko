@@ -20,3 +20,13 @@ class Food(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Message(models.Model):
+    id = models.AutoField(primary_key=True)
+    fullname = models.CharField(max_length=40)
+    email = models.CharField(max_length=40)
+    message = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.message

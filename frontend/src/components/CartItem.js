@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import "./styles/CartItem.css"
 
@@ -18,7 +18,7 @@ return (
           <div className="cartitem__buttons">
             <button onClick={onFoodOrder} className="cartitem__button">+</button>
             <button onClick={onCartItemRemove} className="cartitem__button">-</button>
-            
+
           </div>
           <button onClick={onCartItemDelete} className="cartitem__button">x</button>
         </div>
