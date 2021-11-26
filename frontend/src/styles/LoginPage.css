@@ -1,0 +1,37 @@
+.loginpage{
+    width: 300px;
+    background-color: slategray;
+    margin: 0px auto;
+}
+
+.loginpage__button{
+    width: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.loginpage__buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.loginpage__label{
+    font-weight: bold;
+}
+
+.loginpage__form{
+    width: fit-content;
+    margin: 0px auto;
+    text-align: center;
+}
+
+.loginpage__button--submit{
+    margin: 0px auto;
+}
+
+.loginpage__errortext{
+    color: red;
+
+}

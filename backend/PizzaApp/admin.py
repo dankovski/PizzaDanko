@@ -1,14 +1,15 @@
 from django.contrib import admin
 from .models import Food
-
-#admin.site.register(Food)
-
-# Register your models here.
+from .models import Message
 
 class FoodAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'size', 'cost')
-    list_filter = ('name', 'category', 'cost', 'size')
-    search_fields = ('name', 'category')
+    list_filter = ('category',)
+    search_fields = ('name',)
 
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('fullname', 'email', 'message')
+    search_fields = ('email',)
 
 admin.site.register(Food, FoodAdmin)
+admin.site.register(Message, MessageAdmin)
