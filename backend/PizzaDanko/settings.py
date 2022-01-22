@@ -89,6 +89,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sql11463136',
+#         'USER': 'sql11463136',
+#         'PASSWORD': 'hh2jEPGMb4',
+#         'HOST': 'sql11.freesqldatabase.com',
+#         'PORT': '3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -132,7 +142,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -144,3 +154,32 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
+    ),
+}
+
+from datetime import timedelta
+
+JWT_AUTH = {
+    'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+    'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
+    'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
+    #'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'PizzaApp.views.jwt_response_payload_handler',
+    'JWT_SECRET_KEY': SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256',
+    'CORS_ALLOW_CREDENTIALS': True,
+    'CORS_ALLOWED_ORIGINS': ['http://localhost:3000'],
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=28),
+    'JWT_AUTH_REFRESH_COOKIE': 'jwt-refresh-token',
+    'JWT_AUTH_COOKIE': 'jwt-access-token'
+}
