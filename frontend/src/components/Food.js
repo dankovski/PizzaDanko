@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles/Food.css';
+
+import { cartDataContext } from '../ContextProvider';
 
 const Food = (props) => {
 
+  const {onFoodOrder} = useContext(cartDataContext);
 
 return (
 
@@ -13,7 +16,7 @@ return (
         <div className="food__desc">
           <h3 className="food__desc--title">{props.product.id}. {props.product.name}</h3>
             <p className="food__desc--text">{props.product.description}</p>
-          <button onClick={(product) => props.onFoodOrder(props.product)} className="food__desc--button"><b>Order</b></button>
+          <button onClick={() => onFoodOrder(props.product)} className="food__desc--button"><b>Order</b></button>
 
         </div>
 

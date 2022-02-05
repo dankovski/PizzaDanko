@@ -19,8 +19,6 @@ useEffect(() => {
   window.addEventListener("resize", handleResize)
 })
 
-
-
 return (
   <>
       <img className="header__icon" src={Icon} alt="logo" onClick={showOrHideSidebar}></img>
@@ -42,7 +40,6 @@ return (
           <Link className="sidebar__menu--link" to='/menu' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Delivery</li></Link>
           <Link className="sidebar__menu--link" to='/menu' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Contact</li></Link>
         </ul>
-
 
       </div>
 

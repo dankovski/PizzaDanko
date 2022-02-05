@@ -25,19 +25,10 @@ def jwt_response_payload_handler(token, user=None, request=None):
 
 
 def csrf(request):
-    # response = JsonResponse({'csrfToken': get_token(request)})
-    # set_cookie(response, 'csrftoken', get_token(request))
-    # return response
-    return JsonResponse({'csrfToken': get_token(request)})
+    response = JsonResponse({'csrfToken': get_token(request)})
+    response.set_cookie('csrftoken', get_token(request))
+    return response
 
-
-
-    # request.META["CSRF_COOKIE_USED"] = True
-    # csrftoken = get_token(request)
-    # return JsonResponse({
-    #     'csrf-header-name': 'X-CSRFToken',
-    #     'csrf-token': csrftoken
-    # }, status=200)
 
 def sing_up(request):
     if request.method == "POST":
@@ -84,19 +75,21 @@ def get_food_data(request):
     data = list(Food.objects.values())
     return JsonResponse(data, safe=False)
 
-@api_view(['POST'])
-@permission_classes((IsAuthenticated, ))
-@authentication_classes((JSONWebTokenAuthentication,))
+
+# @api_view(['POST'])
+# @permission_classes((IsAuthenticated, ))
+# @authentication_classes((JSONWebTokenAuthentication,))
 @csrf_protect
 def valid_message(request):
     if request.method == "POST":
 
-        fullname = request.data['fullname']
-        email = request.data['email']
-        message = request.data['message']
+        post_data = json.loads(request.body.decode("utf-8"))
+        email = post_data.get("email")
+        fullname = post_data.get("fullname")
+        message = post_data.get("message")
 
         object = Message(fullname=fullname, email=email, message=message)
         object.save()
 
-        return JsonResponse({"status": "git"}, safe=False)
+        return JsonResponse({"status": "ok"}, safe=False)
 

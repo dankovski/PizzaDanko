@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Cart from './Cart';
 
-function Header(props) {
+function Header() {
 
 return (
 
@@ -16,7 +16,7 @@ return (
                 <Link className="menu__item--link" to='/menu'>MENU</Link>
                 <Link className="menu__item--link" to='/contact'>CONTACT</Link>
                 <Link className="menu__item--link" to='/login'>LOGIN</Link>
-                <Cart cartItems={props.cartItems} onFoodOrder={props.onFoodOrder} onCartItemRemove={props.onCartItemRemove} onCartItemDelete={props.onCartItemDelete}/>
+                <Cart/>
 
             </div>
 

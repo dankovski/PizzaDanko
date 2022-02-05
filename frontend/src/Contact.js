@@ -1,43 +1,103 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import "./styles/Contact.css"
 
-
+import { getCookie } from './ContextProvider';
 
 function Contact() {
 
-      return (
+  const [fullname, setFullname] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
-        <div className="contact">
+  const [isMessageSent, setMessageSent] = useState(false);
 
-          <div className="contact__header">
-            <h1>Contact us</h1>
-            <h3>Please let us know your suggestions or opinion</h3>
-          </div>
+  const submit = () => {
+
+    let messageData = {
+      'fullname': fullname,
+      'email': email,
+      'message': message
+    }
+
+    fetch("http://localhost:8000/api/message", {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: JSON.stringify(messageData)
+
+    })
+      .then(jsonData => jsonData.json())
+      .then(
+        (data) => {
+          if(data['status'] === "ok"){
+            setMessageSent(true);
+          }
+          else{
+            setMessageSent(false);
+          }
+        }
+      )
+  }
 
 
-          <form className="contact__form" action="http://localhost:8000/message" method="post">
+  if (isMessageSent) {
+    return (
 
-            <label className="contact__label">Full name</label>
-            <input className="contact__input" type="text" name="fullname"  id="fullname" minLength="5"/>
-            <br/>
-            <label className="contact__label">Mail</label>
-            <input className="contact__input" type="email" name="email"  id="email"/>
-            <br/>
-            <label className="contact__label">Your message</label>
-            <textarea className="contact__input contact__input--message" name="message" id="message" minLength="10"/>
-            <br/>
+      <div className="contact">
 
-            <button className="contact__button">Submit message</button>
+        <div className="contact__header">
+          <h1>Contact us</h1>
+          <h3>Please let us know your suggestions or opinion</h3>
+        </div>
 
+        <div className="contact__form">
+          <b>Message has been sent</b>
+        </div>
 
-          </form>
+      </div>
 
+    );
+
+  }
+  else {
+    return (
+
+      <div className="contact">
+
+        <div className="contact__header">
+          <h1>Contact us</h1>
+          <h3>Please let us know your suggestions or opinion</h3>
+        </div>
+
+        <div className="contact__form">
+          {/* <CSRFToken/> */}
+          <label className="contact__label">Full name</label>
+          <input className="contact__input" type="text" placeholder='Enter full name' name="fullname" id="fullname" minLength="5" value={fullname} onChange={e => setFullname(e.target.value)} />
+          <br />
+          <label className="contact__label">Email</label>
+          <input className="contact__input" type="email" placeholder='Enter email' name="email" id="email" value={email} onChange={e => setEmail(e.target.value)} />
+          <br />
+          <label className="contact__label">Your message</label>
+          <textarea className="contact__input contact__input--message" placeholder='Enter your message' name="message" id="message" minLength="10" value={message} onChange={e => setMessage(e.target.value)} />
+          <br />
+
+          <button className="contact__button" onClick={submit}>Submit message</button>
 
         </div>
 
-      );
-    }
+      </div>
+
+    );
 
 
-  export default Contact;
+  }
+
+}
+
+
+export default Contact;

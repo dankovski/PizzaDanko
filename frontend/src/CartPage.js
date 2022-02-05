@@ -1,25 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles/Home.css'
 
 import CartItem from './components/CartItem'
 import "./styles/CartPage.css"
+import { cartDataContext } from './ContextProvider';
 
 function CartPage(props){
 
+  const {cartData} = useContext(cartDataContext);
 
-if(props.cartItems.length > 0){
+if(cartData.length > 0){
   return (
     <>
     <div className="cartpage__content">
-        {props.cartItems.map( (item) => (<CartItem onFoodOrder={() => props.onFoodOrder(item)}
-        key={item.id} product={item}
-        onCartItemRemove={() => props.onCartItemRemove(item)}
-        onCartItemDelete={ ()=> props.onCartItemDelete(item)}/>))}
-
+        {cartData.map( (item) => (<CartItem key={item.id} product={item}/>))}
       <button className="cartpage__button">ORDER</button>
 
     </div>
-
 
     </>
           )
@@ -37,8 +34,6 @@ else{
 
 
 }
-
-
 
 
 }

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import "./styles/Menu.css"
-
 import Food from "./components/Food"
 
-function Menu(props) {
+
+
+function Menu() {
 
     const [foodData, setData] = useState(null)
     const [isError, setError] = useState(false)
     const [isLoaded, setLoaded] = useState(false)
 
-    //reading food menu
     useEffect(
         ()=>{
-        fetch("http://localhost:8000/get_food_data")
+        fetch("http://localhost:8000/api/food")
         .then(res => res.json() )
         .then(
         (result) =>{
@@ -39,7 +39,7 @@ function Menu(props) {
         <div className="menu_flex">
             <div className="menu_food">
                 {foodData.map( (food) => (
-                    <Food key={food.id} onFoodOrder={(product)=>props.onFoodOrder(product)} product={food}/>
+                    <Food key={food.id} product={food}/>
                 ))}
             </div>
         </div>

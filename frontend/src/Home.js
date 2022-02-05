@@ -10,9 +10,13 @@ class Home extends React.Component {
           <div className="home__header home__header--move">
             <h1 className="home__header--text">FRESH AND SIMPLE</h1>
             <h1 className="home__header--text">Something for everyone</h1>
-            <Link to='/menu'>
-              <button  className="home__header--button">CHECK MENU</button>
-            </Link>
+            <div className='header__button--button-content'>
+              <Link to='/menu'>
+                <button  className="home__header--button">CHECK MENU</button>
+              </Link>
+            </div>
+              
+
 
           </div>
         </div>

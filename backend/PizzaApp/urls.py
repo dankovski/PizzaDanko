@@ -6,7 +6,7 @@ urlpatterns = [
     path('csrf', views.csrf),
     path("sing_up", views.sing_up, name="sing_up"),
     path("message", views.valid_message, name="valid_message"),
-    path("get_food_data", views.get_food_data, name="get_food_data"),
+    path("food", views.get_food_data, name="get_food_data"),
     path('token', obtain_jwt_token),
     path('token/verify', verify_jwt_token),
     path('token/refresh', refresh_jwt_token)
