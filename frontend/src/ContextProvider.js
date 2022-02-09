@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 
 export const cartDataContext = React.createContext([]);
+export const userContext = React.createContext(null);
+export const loadingContext = React.createContext(false);
 
 export const getCookie = (name) => {
     var cookieValue = null;
@@ -18,58 +20,117 @@ export const getCookie = (name) => {
     return cookieValue;
 }
 
-export const ContextProvider = ({children}) => {
+export const ContextProvider = ({ children }) => {
 
-const [cartData, setCartData] = useState([])
+    const [cartData, setCartData] = useState([]);
+    const [user, setUser] = useState(null);
+    const [isLogged, setIsLogged] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-const onFoodOrder = (product) => {
+    const onFoodOrder = (product) => {
 
-    const exist = cartData.find((x) => x.id === product.id)
-    if (exist) {
+        const exist = cartData.find((x) => x.id === product.id)
+        if (exist) {
 
-        setCartData(
-            cartData.map((x) =>
-                x.id === product.id ? { ...exist, quantity: exist.quantity + 1 } : x
-            )
-        );
+            setCartData(
+                cartData.map((x) =>
+                    x.id === product.id ? { ...exist, quantity: exist.quantity + 1 } : x
+                )
+            );
+        }
+        else {
+            setCartData([...cartData, { ...product, quantity: 1 }]);
+        }
     }
-    else {
-        setCartData([...cartData, { ...product, quantity: 1 }]);
+
+    const onCartItemRemove = (product) => {
+
+        const exist = cartData.find((x) => x.id === product.id)
+
+        if (exist.quantity === 1) {
+            setCartData(
+                cartData.filter((item) => item.id !== product.id)
+            );
+        }
+        else {
+            setCartData(
+                cartData.map((x) =>
+                    x.id === product.id ? { ...exist, quantity: exist.quantity - 1 } : x
+                )
+            );
+        }
     }
-}
 
-const onCartItemRemove = (product) => {
+    const onCartItemDelete = (product) => {
 
-    const exist = cartData.find((x) => x.id === product.id)
-
-    if (exist.quantity === 1) {
         setCartData(
             cartData.filter((item) => item.id !== product.id)
         );
     }
-    else {
-        setCartData(
-            cartData.map((x) =>
-                x.id === product.id ? { ...exist, quantity: exist.quantity - 1 } : x
-            )
-        );
-    }
-}
 
-const onCartItemDelete = (product) => {
+    useEffect(
+        () => {
+            fetch("http://localhost:8000/api/valid_user", {
+                credentials: 'include',
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(jsonData => jsonData.json())
+                .then(
+                    (data) => {
+                        if (data['username']) {
+                            setIsLogged(true);
+                            setUser(data['username']);
+                        }
+                        setIsLoaded(true);
+                    }
+                )
 
-    setCartData(
-        cartData.filter((item) => item.id !== product.id)
-    );
-}
+            let initCartData = JSON.parse(localStorage.getItem("cartData"));
 
-return(
+            fetch("http://localhost:8000/api/food")
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        let tempCartData = []
+                        initCartData.map((item) => {
 
-    <cartDataContext.Provider value={{cartData, onFoodOrder, onCartItemRemove, onCartItemDelete}}>
-            {children}
-    </cartDataContext.Provider>
+                            for (let food of result) {
 
-)
+                                if (item.id == food.id) {
+                                    food.quantity = item.quantity
+                                    tempCartData.push(food)
+                                }
+                            }
+                        })
+                        setCartData(tempCartData)
+                    }
+                )
+
+        }, [])
+
+
+    useEffect(
+        () => {
+
+            localStorage.setItem("cartData", JSON.stringify(cartData));
+
+        }, [cartData])
+
+    return (
+
+        <cartDataContext.Provider value={{ cartData, onFoodOrder, onCartItemRemove, onCartItemDelete }}>
+            <userContext.Provider value={{ user, setUser, isLogged, setIsLogged }}>
+                <loadingContext.Provider value={{ isLoaded, setIsLoaded }}>
+                    {children}
+                </loadingContext.Provider>
+            </userContext.Provider>
+        </cartDataContext.Provider>
+
+    )
 
 }
 

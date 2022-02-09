@@ -18,8 +18,6 @@ class Food(models.Model):
     description = models.CharField(max_length=100)
     photo = models.ImageField(upload_to="media")
 
-    def __str__(self):
-        return self.name
 
 
 class Message(models.Model):
@@ -30,3 +28,23 @@ class Message(models.Model):
 
     def __str__(self):
         return self.message
+
+
+class OrderItem(models.Model):
+    food_id = models.IntegerField()
+    quantity = models.IntegerField(default=1, null=False)
+
+
+class Order(models.Model):
+    id = models.AutoField(primary_key=True)
+    user_id = models.CharField(max_length=40)
+    address_id = models.CharField(max_length=40)
+    order_date = models.DateTimeField(auto_now_add=True)
+    delivery_date = models.DateTimeField()
+    total_cost = models.IntegerField()
+    STATUS = (
+        (1, 'PREPARING'),
+        (2, 'DELIVERING'),
+        (3, 'DELIVERED')
+    )
+

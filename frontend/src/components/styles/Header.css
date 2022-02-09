@@ -18,12 +18,14 @@
 }
 
 .menu__item--link{
+    border: 0;
     font-weight: bold;
     font-size: 31px;
     margin-left: 15px;
     margin-right: 15px;
 	white-space: nowrap;
     color: white;
+    background-color: transparent;
     text-decoration: none;
     cursor: pointer;
 }

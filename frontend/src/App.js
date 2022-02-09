@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -10,13 +10,16 @@ import LoginPage from './LoginPage'
 
 import './styles/index.css';
 
-import { ContextProvider , getCookie} from './ContextProvider';
+import { ContextProvider , getCookie, loadingContext  } from './ContextProvider';
 
 import Header from './components/Header';
 import Info from './components/Info';
 
 
 function App() {
+
+    const {isLoaded, setIsLoaded} = useContext(loadingContext);
+
 
     useEffect(
         () => {
@@ -28,30 +31,32 @@ function App() {
                 }
             })
                 .then(jsonData => jsonData.json())
-                .then(
-                    (data) => {
-                        console.log(getCookie('csrftoken'))
-
-                    },
-                    (error) => {
-                        console.log("can't get csrf token")
-                    }
-                )
         }, [])
 
 
     return (
-        <ContextProvider>
+        // <ContextProvider>
             <Router>
-                <Header/>
-                <Route exact path='/'><Home/></Route>
-                <Route exact path='/menu'><Menu/></Route>
-                <Route exact path='/contact'><Contact/></Route>
-                <Route exact path='/login'><LoginPage/></Route>
-                <Route exact path='/cart'><CartPage/></Route>
-                <Info />
+            { isLoaded ? (
+                <>
+                    <Header/>
+                    <Route exact path='/'><Home/></Route>
+                    <Route exact path='/menu'><Menu/></Route>
+                    <Route exact path='/contact'><Contact/></Route>
+                    <Route exact path='/login'><LoginPage/></Route>
+                    <Route exact path='/cart'><CartPage/></Route>
+                    <Info/>
+                </>
+            ):
+            (
+                <div onClick={() => console.log(isLoaded)}>aaa</div>
+            )
+
+            }
+
             </Router>
-        </ContextProvider>)
+        // </ContextProvider>
+        )
 
 }
 

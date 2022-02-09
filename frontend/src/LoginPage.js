@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import $ from 'jquery';
+import React, { useState, useContext } from 'react';
 import "./styles/LoginPage.css"
 import CSRFToken from "./components/CSRFToken"
+import { getCookie, userContext } from './ContextProvider';
 
 
 function LoginPage() {
@@ -14,21 +14,7 @@ function LoginPage() {
     const [passwordError, setPasswordError] = useState('');
     const [password1Error, setPassword1Error] = useState('');
 
-
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = $.trim(cookies[i]);
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
+    const {user, setUser, isLogged, setIsLogged} = useContext(userContext);
 
     function changeContent() {
         setEmail('');
@@ -56,7 +42,6 @@ function LoginPage() {
         }
 
         fetch("http://localhost:8000/sing_up", {
-            credentials: 'include',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -91,14 +76,8 @@ function LoginPage() {
                             setPassword1Error('');
                         }
                     }
-
-
-
                 }
-
-
             )
-
     }
 
 
@@ -116,6 +95,7 @@ function LoginPage() {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
             body: JSON.stringify(loginData)
         })
@@ -123,12 +103,29 @@ function LoginPage() {
             .then(
                 (data) => {
                     console.log(data)
+                    if(data["username"]){
+                        setIsLogged(true);
+                        setUser(data['username']);
+
+                        setEmail('');
+                        setPassword('');
+                        setPassword1('');
+                        setEmailError('');
+                        setPasswordError('');
+                        setPassword1Error('');
+
+                    }
+                    else{
+                        setPasswordError("Incorrect login or password");
+                        setPassword('');
+                    }
 
                 }
             )
     }
 
 
+    if(!isLogged){
     if (isLoginActive) {
         return (
             <>
@@ -193,9 +190,10 @@ function LoginPage() {
             </>
         )
     }
-
-
-
+    }
+    else{
+        return null;
+    }
 
 
 

@@ -178,7 +178,7 @@ JWT_AUTH = {
     'CORS_ALLOWED_ORIGINS': ['http://localhost:3000'],
     'JWT_ALLOW_REFRESH': True,
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=5),
+    'JWT_EXPIRATION_DELTA': timedelta(minutes=30),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=28),
     'JWT_AUTH_REFRESH_COOKIE': 'jwt-refresh-token',
     'JWT_AUTH_COOKIE': 'jwt-access-token'

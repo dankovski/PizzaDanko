@@ -11,10 +11,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import requires_csrf_token
+from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
+from rest_framework import status
+from django.core import serializers
+from django.forms.models import model_to_dict
 
 
 regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-
 
 def jwt_response_payload_handler(token, user=None, request=None):
     return {
@@ -24,12 +27,50 @@ def jwt_response_payload_handler(token, user=None, request=None):
     }
 
 
+def valid_user(request):
+    if request.method == "GET":
+
+        token = request.COOKIES.get('jwt-access-token')
+
+        try:
+            data = {'token': token}
+            valid_data = VerifyJSONWebTokenSerializer().validate(data)
+
+            user = valid_data['user']
+            return JsonResponse({'username': str(user)}, status=status.HTTP_200_OK)
+        except:
+            return JsonResponse({'status': "not logged"},  status=status.HTTP_200_OK)
+
+
 def csrf(request):
     response = JsonResponse({'csrfToken': get_token(request)})
     response.set_cookie('csrftoken', get_token(request))
     return response
 
+def logout(request):
+    response = JsonResponse({'status': "ok"})
+    response.set_cookie('jwt-access-token', max_age=0)
+    return response
 
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+@authentication_classes((JSONWebTokenAuthentication,))
+@csrf_protect
+def order(request):
+    if request.method == "POST":
+        post_data = request.data
+        print(len(post_data))
+
+        cost = 0
+
+        for food in post_data:
+            cost += food["quantity"] * Food.objects.get(id=str(food["id"])).cost
+        print(cost)
+
+        return JsonResponse({"cost": cost})
+
+
+@csrf_protect
 def sing_up(request):
     if request.method == "POST":
         post_data = json.loads(request.body.decode("utf-8"))
@@ -74,6 +115,17 @@ def sing_up(request):
 def get_food_data(request):
     data = list(Food.objects.values())
     return JsonResponse(data, safe=False)
+
+def get_food_data_from_id(request, id):
+
+
+    dict_obj = model_to_dict( Food.objects.get(id=id) )
+    print(dict_obj)
+    print(dict_obj.get("photo"))
+    dict_obj.update( {"photo": str(dict_obj.get("photo"))} )
+
+    return JsonResponse( dict_obj, safe=False)
+
 
 
 # @api_view(['POST'])
