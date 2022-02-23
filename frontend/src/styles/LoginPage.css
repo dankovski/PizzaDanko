@@ -1,37 +1,83 @@
 .loginpage{
-    width: 300px;
-    background-color: slategray;
+    width: 200px;
+    background-color: rgb(10, 86, 161);
     margin: 0px auto;
+    border-radius: 10px;
+    padding: 20px 40px;
 }
 
-.loginpage__button{
-    width: 50%;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.loginpage__buttons{
+.loginpage__form{
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    margin: 0px auto;
+    /* text-align: center; */
+}
+
+.loginpage__form > input {
+
+    border: none;
+    width: 100%;
+    background: white;
+    outline: none;
+    border: none;
+    margin-top: 10px;
+    height: 20px;
+}
+
+.loginpage__form--title{
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 .loginpage__label{
     font-weight: bold;
 }
 
-.loginpage__form{
-    width: fit-content;
-    margin: 0px auto;
-    text-align: center;
-}
+
 
 .loginpage__button--submit{
-    margin: 0px auto;
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    border:none;
+    border-radius: 25px;
+    margin-top: 10px;
+    color:white;
+    font-weight: bold;
+    font-size: 15px;
+
+    background-image: linear-gradient(to right, #009245, #FCEE21, #00A8C5, #D9E021);
+    background-size: 300% 100%;
+    transition: all .4s ease-in-out;
+
+/*
+    background: #25aae1;
+    transition: background .3s ease-out; */
+}
+
+.loginpage__button--submit:hover{
+    background-position: 100% 0;
+    transition: all .4s ease-in-out;
+
+    /* background: #2bb673;
+    transition: background .3s ease-in; */
 }
 
 .loginpage__errortext{
     color: red;
+}
 
+
+.loginpage__content-change{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.loginpage__content-change--button{
+    cursor: pointer;
+}
+
+.loginpage__content-change--button:hover{
+    color:greenyellow;
+    transition: color .4s ease-in-out;
 }

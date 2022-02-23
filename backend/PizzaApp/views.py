@@ -70,7 +70,7 @@ def order(request):
         return JsonResponse({"cost": cost})
 
 
-@csrf_protect
+# @csrf_protect
 def sing_up(request):
     if request.method == "POST":
         post_data = json.loads(request.body.decode("utf-8"))
