@@ -1,0 +1,5 @@
+django==3.2.15
+django-cors-headers
+django-rest-framework
+djangorestframework-jwt
+mysqlclient

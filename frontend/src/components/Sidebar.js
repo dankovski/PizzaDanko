@@ -1,11 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './styles/Sidebar.css';
 import Icon from './images/icon_menu.png'
 import { Link } from 'react-router-dom';
+import { userContext } from '../ContextProvider';
 
 function Sidebar() {
 
 const [isActive, setActive] = useState(false)
+
+const { user, setUser, isLogged, setIsLogged } = useContext(userContext);
+
+function logout() {
+
+  fetch("http://localhost:8000/api/logout", {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+
+
+  setIsLogged(false);
+  setUser(null);
+}
 
 const showOrHideSidebar = () => setActive(!isActive)
 
@@ -35,10 +54,12 @@ return (
         <ul className="sidebar__menu">
 
           <Link className="sidebar__menu--link" to='/' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Home</li></Link>
-          <Link className="sidebar__menu--link" to='/menu' onClick={showOrHideSidebar}><li className="sidebar__menu--item">About</li></Link>
           <Link className="sidebar__menu--link" to='/menu' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Menu</li></Link>
-          <Link className="sidebar__menu--link" to='/menu' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Delivery</li></Link>
-          <Link className="sidebar__menu--link" to='/menu' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Contact</li></Link>
+          <Link className="sidebar__menu--link" to='/contact' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Contact</li></Link>
+          {isLogged ?
+            <button className="menu__item--link" onClick={logout}>Logout</button> :
+            <Link className="sidebar__menu--link" to='/login' onClick={showOrHideSidebar}><li className="sidebar__menu--item">Login</li></Link>
+          }
         </ul>
 
       </div>

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import "./styles/LoginPage.css"
 import CSRFToken from "./components/CSRFToken"
 import { getCookie, userContext } from './ContextProvider';
-
+import swal from 'sweetalert';
 
 function LoginPage() {
     const [isLoginActive, setLoginActive] = useState(true)
@@ -69,6 +69,7 @@ function LoginPage() {
 
         fetch("http://localhost:8000/api/sing_up", {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -76,34 +77,57 @@ function LoginPage() {
             },
             body: JSON.stringify(singupData)
         })
-            .then(jsonData => jsonData.json())
-            .then(
-                (data) => {
-
-                    if (data['errors']) {
-                        if (data['errors'].hasOwnProperty('emailError')) {
-                            setEmailError(data['errors']['emailError']);
-                        }
-                        else {
-                            setEmailError('');
-                        }
-
-                        if (data['errors'].hasOwnProperty('passwordError')) {
-                            setPasswordError(data['errors']['passwordError']);
-                        }
-                        else {
-                            setPasswordError('');
-                        }
-
-                        if (data['errors'].hasOwnProperty('password1Error')) {
-                            setPassword1Error(data['errors']['password1Error']);
-                        }
-                        else {
-                            setPassword1Error('');
-                        }
-                    }
+        .then((response) => {
+            if (response.ok || response.status) {
+              return response.json();
+            }
+            console.log(response)
+            throw new Error('Cant fetch data');
+          })
+          .then((data) => {
+            if (data['errors']) {
+                if (data['errors'].hasOwnProperty('emailError')) {
+                    setEmailError(data['errors']['emailError']);
                 }
-            )
+                else {
+                    setEmailError('');
+                }
+
+                if (data['errors'].hasOwnProperty('passwordError')) {
+                    setPasswordError(data['errors']['passwordError']);
+                }
+                else {
+                    setPasswordError('');
+                }
+
+                if (data['errors'].hasOwnProperty('password1Error')) {
+                    setPassword1Error(data['errors']['password1Error']);
+                }
+                else {
+                    setPassword1Error('');
+                }
+            }
+            else{
+                setLoginActive(true);
+                swal({
+                    title: 'Success!',
+                    text: "Account has been created!",
+                    icon: 'success',
+                    timer: 2000,
+                    buttons: false,
+                })
+            }
+          })
+          .catch((error) => {
+            swal({
+              title: 'Problem!',
+              text: "There is a problem with a server. Let's try again in a while!",
+              icon: 'error',
+              timer: 2000,
+              buttons: false,
+          })
+            console.log(error)
+          });
         }
     }
 
@@ -134,29 +158,39 @@ function LoginPage() {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(loginData)
             })
-                .then(jsonData => jsonData.json())
-                .then(
-                    (data) => {
+            .then((response) => {
+                if (response.ok || response.status) {
+                  return response.json();
+                }
+                throw new Error('Cant fetch data');
+              })
+              .then((data) => {
+                if (data["username"]) {
+                    setIsLogged(true);
+                    setUser(data['username']);
 
-                        if (data["username"]) {
-                            setIsLogged(true);
-                            setUser(data['username']);
-
-                            setUsername('');
-                            setPassword('');
-                        }
-                        else {
-                            setPasswordError("Incorrect login or password");
-                            setPassword('');
-                        }
-
-                    }
-                )
+                    setUsername('');
+                    setPassword('');
+                }
+                else {
+                    setPasswordError("Incorrect login or password");
+                    setPassword('');
+                }
+              })
+              .catch((error) => {
+                swal({
+                  title: 'Problem!',
+                  text: "There is a problem with a server. Let's try again in a while!",
+                  icon: 'error',
+                  timer: 2000,
+                  buttons: false,
+              })
+                console.log(error)
+              });
         }
     }
 
@@ -173,13 +207,13 @@ function LoginPage() {
 
                             <label>Username</label>
                             <br />
-                            <input onFocus={() => setUsernameError('')} placeholder='Type your username' type="username" value={username} onInput={e => setUsername(e.target.value)} />
+                            <input onFocus={() => setUsernameError('')} placeholder='Type your username' type="username" onInput={e => setUsername(e.target.value)} />
                             <h6 className="loginpage__errortext">{usernameError}</h6>
                             <br />
 
                             <label>Password</label>
                             <br />
-                            <input onFocus={() => setPasswordError('')} placeholder='Type your password' type="password" value={password} onInput={e => setPassword(e.target.value)} />
+                            <input onFocus={() => setPasswordError('')} placeholder='Type your password' type="password" onInput={e => setPassword(e.target.value)} />
                             <h6 className="loginpage__errortext">{passwordError}</h6>
                         </div>
                         <br />
@@ -205,26 +239,26 @@ function LoginPage() {
 
                             <label>Username</label>
                             <br />
-                            <input onFocus={() => setUsernameError('')} placeholder='Type your username' type="username" value={username} onInput={e => setUsername(e.target.value)} />
+                            <input onFocus={() => setUsernameError('')} placeholder='Type your username' type="username" onInput={e => setUsername(e.target.value)} />
                             <h6 className="loginpage__errortext">{usernameError}</h6>
                             <br />
 
 
                             <label>Email</label>
                             <br />
-                            <input onFocus={() => setEmailError('')} placeholder='Type your email' type="email" value={email} onInput={e => setEmail(e.target.value)} />
+                            <input onFocus={() => setEmailError('')} placeholder='Type your email' type="email" onInput={e => setEmail(e.target.value)} />
                             <h6 className="loginpage__errortext">{emailError}</h6>
                             <br />
 
                             <label>Password</label>
                             <br />
-                            <input onFocus={() => setPasswordError('')} placeholder='Type your password'  type="password" value={password} onInput={e => setPassword(e.target.value)} />
+                            <input onFocus={() => setPasswordError('')} placeholder='Type your password'  type="password" onInput={e => setPassword(e.target.value)} />
                             <h6 className="loginpage__errortext">{passwordError}</h6>
                             <br />
 
                             <label>Confirm password</label>
                             <br />
-                            <input onFocus={() => setPassword1Error('')} placeholder='Re-write your password'  type="password" value={password1} onInput={e => setPassword1(e.target.value)} />
+                            <input onFocus={() => setPassword1Error('')} placeholder='Re-write your password'  type="password" onInput={e => setPassword1(e.target.value)} />
                             <h6 className="loginpage__errortext">{password1Error}</h6>
                             <br />
 

@@ -26,11 +26,20 @@ function App() {
 
             fetch("http://localhost:8000/api/csrf", {
                 method: 'GET',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-                .then(jsonData => jsonData.json())
+            .then((response) => {
+                if (response.ok) {
+                  return;
+                }
+                throw new Error('Cant fetch data');
+              })
+              .catch((error) => {
+                console.log(error)
+              });
         }, [])
 
 
@@ -49,7 +58,7 @@ function App() {
                 </>
             ):
             (
-                <div onClick={() => console.log(isLoaded)}>aaa</div>
+                <div></div>
             )
 
             }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import "./styles/Contact.css"
+import swal from 'sweetalert';
 
 import { getCookie } from './ContextProvider';
 
@@ -31,17 +32,31 @@ function Contact() {
       body: JSON.stringify(messageData)
 
     })
-      .then(jsonData => jsonData.json())
-      .then(
-        (data) => {
-          if(data['status'] === "ok"){
-            setMessageSent(true);
-          }
-          else{
-            setMessageSent(false);
-          }
-        }
-      )
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Cant fetch data');
+    })
+    .then((data) => {
+      if(data['status'] === "ok"){
+        setMessageSent(true);
+      }
+      else{
+        setMessageSent(false);
+      }
+    })
+    .catch((error) => {
+      swal({
+        title: 'Problem!',
+        text: "We can't receive your message. Let's try again in a while!",
+        icon: 'error',
+        timer: 2000,
+        buttons: false,
+    })
+      setMessageSent(false);
+      console.log(error)
+    });
   }
 
 

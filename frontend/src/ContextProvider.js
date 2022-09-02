@@ -77,38 +77,50 @@ export const ContextProvider = ({ children }) => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
-            })
-                .then(jsonData => jsonData.json())
-                .then(
-                    (data) => {
-                        if (data['username']) {
-                            setIsLogged(true);
-                            setUser(data['username']);
-                        }
-                        setIsLoaded(true);
-                    }
-                )
+            }).then((response) => {
+                if (response.ok) {
+                  return response.json();
+                }
+                throw new Error('Cant fetch data');
+              })
+              .then((data) => {
+                if (data['username']) {
+                    setIsLogged(true);
+                    setUser(data['username']);
+                }
+                setIsLoaded(true);
+              })
+              .catch((error) => {
+                setIsLoaded(true);
+                console.log(error)
+              });
 
             let initCartData = JSON.parse(localStorage.getItem("cartData"));
 
             fetch("http://localhost:8000/api/food")
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        let tempCartData = []
-                        initCartData.map((item) => {
+            .then((response) => {
+                if (response.ok) {
+                  return response.json();
+                }
+                throw new Error('Cant fetch data');
+              })
+              .then(                    (result) => {
+                let tempCartData = []
+                initCartData.map((item) => {
 
-                            for (let food of result) {
+                    for (let food of result) {
 
-                                if (item.id == food.id) {
-                                    food.quantity = item.quantity
-                                    tempCartData.push(food)
-                                }
-                            }
-                        })
-                        setCartData(tempCartData)
+                        if (item.id == food.id) {
+                            food.quantity = item.quantity
+                            tempCartData.push(food)
+                        }
                     }
-                )
+                })
+                setCartData(tempCartData)
+            })
+              .catch((error) => {
+                console.log(error)
+              });
 
         }, [])
 
