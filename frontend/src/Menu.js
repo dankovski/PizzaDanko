@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./styles/Menu.css"
 import Food from "./components/Food"
 
-import FilterSortMenu from "./components/FilterSortMenu"
+import SortMenu from "./components/SortMenu"
 
 function Menu() {
 
@@ -26,29 +26,6 @@ function Menu() {
         )
     },[])
 
-    const onFilterChange = (filter) => {
-
-        switch(filter){
-
-            case "pizza":
-
-
-
-        }
-
-
-    }
-
-    const onSortChange = (sort) => {
-
-
-
-
-        
-    }
-
-
-
     if(isError){
         return <h1>Can't load food</h1>
     }
@@ -58,10 +35,9 @@ function Menu() {
     else{
       return (
       <>
-        <h1>menu</h1>
-        <FilterSortMenu setData={(data) => setData(data)}></FilterSortMenu>
+        <SortMenu setFoodData={(data) => setData([...data])} foodData={foodData}></SortMenu>
         <div className="menu_flex">
-            <h2>pizza</h2>
+            <h2>Pizza</h2>
             <div className="menu_food">
                 {foodData.map( (food) => {
                     if(food.category == 1){
@@ -70,7 +46,7 @@ function Menu() {
                 }
                 )}
             </div>
-            <h2>kebab</h2>
+            <h2>Kebab</h2>
             <div className="menu_food">
             {foodData.map( (food) => {
                     if(food.category == 2){
@@ -79,7 +55,7 @@ function Menu() {
                 }
                 )}
             </div>
-            <h2>pizza</h2>
+            <h2>Drinks</h2>
             <div className="menu_food">
             {foodData.map( (food) => {
                     if(food.category == 3){

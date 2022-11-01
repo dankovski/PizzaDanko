@@ -17,7 +17,6 @@ return (
           <h3 className="food__desc--title">{props.product.id}. {props.product.name}</h3>
             <p className="food__desc--text">{props.product.description}</p>
           <button onClick={() => onFoodOrder(props.product)} className="food__desc--button"><b>Order</b></button>
-
         </div>
 
       </div>
