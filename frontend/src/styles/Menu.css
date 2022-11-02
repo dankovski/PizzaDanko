@@ -2,7 +2,7 @@
     width:80%;
     display: inline-grid;
     grid-gap: 20px;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
 }
 
 .menu_flex{
