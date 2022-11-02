@@ -17,7 +17,9 @@ function Menu() {
         .then(res => res.json() )
         .then(
         (result) =>{
-            setData(result)
+            setData(result.sort((food1, food2) => {
+                return food1.name.localeCompare(food2.name)
+            }))
             setLoaded(true)
         },
         (error) =>{
@@ -39,27 +41,27 @@ function Menu() {
         <div className="menu_flex">
             <h2>Pizza</h2>
             <div className="menu_food">
-                {foodData.map( (food) => {
+                {foodData.map( (food, index) => {
                     if(food.category == 1){
-                        return <Food key={food.id} product={food}/>
+                        return <Food key={food.id} number={index + 1} product={food}/>
                     }
                 }
                 )}
             </div>
             <h2>Kebab</h2>
             <div className="menu_food">
-            {foodData.map( (food) => {
+            {foodData.map( (food, index) => {
                     if(food.category == 2){
-                        return <Food key={food.id} product={food}/>
+                        return <Food key={food.id} number={index + 1} product={food}/>
                     }
                 }
                 )}
             </div>
             <h2>Drinks</h2>
             <div className="menu_food">
-            {foodData.map( (food) => {
+            {foodData.map( (food, index) => {
                     if(food.category == 3){
-                        return <Food key={food.id} product={food}/>
+                        return <Food key={food.id} number={index + 1} product={food}/>
                     }
                 }
                 )}
